@@ -1,0 +1,61 @@
+Phần 1: Mã nguồn
+1. Tạo cây thư mục
+New-Item -ItemType Directory -Path .\Farm-Manager\code\app -Force
+New-Item -ItemType Directory -Path .\Farm-Manager\database\db -Force
+New-Item -ItemType Directory -Path .\Farm-Manager\logs\guides -Force
+New-Item: tạo đối tượng mới.
+-ItemType Directory: tạo thư mục.
+.\: sử dụng đường dẫn tương đối.
+-Force: cho phép tạo thư mục và không báo lỗi nếu thư mục đã tồn tại.
+2. Tạo 3 file rỗng trong app
+New-Item -ItemType File -Path .\Farm-Manager\code\app\main.py -Force
+New-Item -ItemType File -Path .\Farm-Manager\code\app\models.py -Force
+New-Item -ItemType File -Path .\Farm-Manager\code\app\utils.py -Force
+-ItemType File: tạo file.
+-Force: tạo file nếu chưa tồn tại hoặc cho phép xử lý khi file đã tồn tại.
+3. Sao chép toàn bộ logs sang logs-backup
+Copy-Item .\Farm-Manager\logs .\Farm-Manager\logs-backup -Recurse -Force
+Copy-Item: sao chép file hoặc thư mục.
+-Recurse: sao chép đệ quy toàn bộ thư mục con và file bên trong, bao gồm cả guides.
+-Force: cho phép sao chép/ghi đè khi cần.
+Đây là lệnh quan trọng nhất của bài. Nếu bỏ -Recurse, thư mục con guides có thể không được sao chép đầy đủ.
+
+Phần 2: Kiểm thử
+Sau khi thực hiện các lệnh trên, nhập:
+ls .\Farm-Manager
+Hoặc:
+dir .\Farm-Manager
+Nếu muốn kiểm tra toàn bộ cây thư mục, dùng:
+Get-ChildItem .\Farm-Manager -Recurse
+Cấu trúc đúng cần có:
+Farm-Manager
+├── code
+│   └── app
+│       ├── main.py
+│       ├── models.py
+│       └── utils.py
+├── database
+│   └── db
+├── logs
+│   └── guides
+└── logs-backup
+    └── guides
+Vì sao dùng .\ thay vì C:\...?
+.\ là đường dẫn tương đối, nghĩa là đường dẫn được tính từ thư mục hiện tại của PowerShell.
+Sử dụng:
+.\Farm-Manager\...
+giúp câu lệnh không phụ thuộc vào ổ đĩa, tên người dùng hoặc vị trí cụ thể trên máy. Vì vậy, dự án dễ di chuyển và chạy trên máy khác hơn.
+ Đáp án trọng tâm
+New-Item -ItemType Directory -Path .\Farm-Manager\code\app -Force
+New-Item -ItemType Directory -Path .\Farm-Manager\database\db -Force
+New-Item -ItemType Directory -Path .\Farm-Manager\logs\guides -Force
+
+New-Item -ItemType File -Path .\Farm-Manager\code\app\main.py -Force
+New-Item -ItemType File -Path .\Farm-Manager\code\app\models.py -Force
+New-Item -ItemType File -Path .\Farm-Manager\code\app\utils.py -Force
+
+Copy-Item .\Farm-Manager\logs .\Farm-Manager\logs-backup -Recurse -Force
+
+ls .\Farm-Manager
+Mấu chốt cần nhớ: -Recurse = sao chép cả thư mục con; -Force = ép thực hiện/ghi đè khi cần; .\ = đường dẫn tương đối.
+
